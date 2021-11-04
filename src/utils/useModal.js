@@ -22,5 +22,6 @@ export default function useTitle(modalTitle) {
     issue는,
     placeholder,
   };
+
   return titleObj;
 }
