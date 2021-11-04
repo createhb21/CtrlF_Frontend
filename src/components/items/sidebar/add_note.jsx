@@ -1,15 +1,17 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
-import { noteModal } from '../../../store/atom';
-import AddNoteModal from '../modal/add_note_modal';
+import { okBtnActive, isModalActive } from '../../../store/atom';
 import styles from '../../../styles/items/sidebar/add_note.module.css';
+import useTitle from '../../../utils/useModal';
+import IssueCreateModal from '../modal/IssueCreateModal';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 
 function AddNote() {
-  const [isModalActive, setIsModalActive] = useRecoilState(noteModal);
+  const setIsUserSubmit = useSetRecoilState(okBtnActive);
+  const [showHiddenModal, setShowHiidenModal] = useRecoilState(isModalActive);
+  const titleObj = useTitle('note');
 
-  const activeAddNoteModal = (event) => {
-    event.preventDefault();
-    setIsModalActive(false);
+  const activeAddNoteModal = () => {
+    setIsUserSubmit(false);
+    setShowHiidenModal(true);
   };
 
   return (
@@ -19,13 +21,11 @@ function AddNote() {
           + 노트 추가
         </button>
       </div>
-      <div
-        className={`${styles.notes_modal} ${
-          isModalActive ? `${styles.hidden}` : ''
-        }`}
-      >
-        <AddNoteModal />
-      </div>
+      {showHiddenModal && (
+        <>
+          <IssueCreateModal titleObj={titleObj} />
+        </>
+      )}
     </>
   );
 }

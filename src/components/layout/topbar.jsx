@@ -1,21 +1,17 @@
 import Link from 'next/link';
 import router from 'next/router';
+import React, { useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import { useCookies } from 'react-cookie';
 import { isJwtActive } from '../../store/atom';
-import usePagination from '../../utils/use_pagination';
-import React, { useState, useRef, useEffect } from 'react';
 import styles from '../../styles/layout/topbar.module.css';
 
 export default function Topbar() {
-  const logOutRef = useRef();
   const formRef = useRef();
   const inputRef = useRef();
+  const logOutRef = useRef();
   const [jwt, setJwt] = useRecoilState(isJwtActive);
-  const [query, setQuery] = useState('');
-  const [cursorNumber, setCursorNumber] = useState(0);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  usePagination(cursorNumber, query);
 
   const localClear = () => {
     logOutRef.current.classList.toggle('topbar_hidden__2lErd');
@@ -27,25 +23,18 @@ export default function Topbar() {
     router.push('/');
   };
 
-  // 검색 기능 구현 함수라, 주석처리하겠습니다.
-  /* const onSearch = (event) => {
-    event.preventDefault();
-    setQuery(event.target.value);
-    setCursorNumber(0);
-    formRef.current.reset();
-  }; */
-
   return (
     <header className={styles.container}>
       <div className={styles.container__wrap}>
-        <a href="/" className={styles.top__logo}>
-          <img
-            className={styles.top__logo__img}
-            src="/images/LOGO_SOLO 1.svg"
-            alt="logo"
-          />
-          <h1 className={styles.top__logo__title}>커넵</h1>
-        </a>
+        <Link href="/">
+          <a className={styles.top__logo}>
+            <img
+              className={styles.top__logo__img}
+              src="/images/mainLogo.png"
+              alt="logo"
+            />
+          </a>
+        </Link>
         <form ref={formRef} className={styles.searchbar}>
           <input
             ref={inputRef}
@@ -74,10 +63,10 @@ export default function Topbar() {
           </div>
         ) : (
           <div className={styles.top__signup__list}>
-            <Link href="/login">
+            <Link href="/login" className={styles.signupLink}>
               <a>로그인 |</a>
             </Link>
-            <Link href="/register">
+            <Link href="/register" className={styles.signupLink}>
               <a>회원가입</a>
             </Link>
           </div>

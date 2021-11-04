@@ -29,7 +29,7 @@
   position: relative;
 }
 
-.section .slidelist #labeltest {
+.section .slidelist #label {
   position: absolute;
   z-index: 10;
   top: 50%;
@@ -44,12 +44,7 @@
   background: url('../../public/left-arrow.png') center center / 100% no-repeat;
 }
 
-.section .slidelist .right {
-  right: 30px;
-  background: url('../../public/right-arrow.png') center center / 100% no-repeat;
-}
-
-@keyframes test1 {
+@keyframes moveslide1 {
   0% {
     transform: translateX(1%);
   }
@@ -61,7 +56,7 @@
   }
 }
 
-@keyframes test2 {
+@keyframes moveslide2 {
   0% {
     transform: translateX(-98%);
   }
@@ -73,7 +68,7 @@
   }
 }
 
-@keyframes test3 {
+@keyframes moveslide3 {
   0% {
     transform: translateX(-198%);
   }
@@ -85,7 +80,7 @@
   }
 }
 
-@keyframes test4 {
+@keyframes moveslide4 {
   0% {
     transform: translateX(-298%);
   }
@@ -97,7 +92,7 @@
   }
 }
 
-@keyframes test5 {
+@keyframes moveslide5 {
   0% {
     transform: translateX(-398%);
   }
@@ -110,19 +105,19 @@
 }
 
 .section [id='slide01']:checked ~ .slidewrap .slidelist > li {
-  animation: test1 0.1s ease forwards;
+  animation: moveslide1 0.1s ease forwards;
 }
 .section [id='slide02']:checked ~ .slidewrap .slidelist > li {
-  animation: test2 0.3s ease forwards;
+  animation: moveslide2 0.3s ease forwards;
 }
 .section [id='slide03']:checked ~ .slidewrap .slidelist > li {
-  animation: test3 0.3s ease forwards;
+  animation: moveslide3 0.3s ease forwards;
 }
 .section [id='slide04']:checked ~ .slidewrap .slidelist > li {
-  animation: test4 0.3s ease forwards;
+  animation: moveslide4 0.3s ease forwards;
 }
 .section [id='slide05']:checked ~ .slidewrap .slidelist > li {
-  animation: test5 0.3s ease forwards;
+  animation: moveslide5 0.3s ease forwards;
 }
 
 .slidelist {
@@ -142,7 +137,7 @@
 .com {
   display: flex;
   width: 52.75rem;
-  height: 480px;
+  /* height: 480px; */
   justify-content: center;
   background-color: white;
   flex-direction: column;
@@ -153,7 +148,7 @@
 }
 
 .input {
-  width: 81%;
+  width: 100%;
   border: none;
   border-radius: 20px;
   outline: none;
@@ -170,12 +165,14 @@
   color: white;
   border-radius: 20px;
   border: none;
-  width: 85.6%;
+  width: 81%;
   cursor: pointer;
   height: 5rem;
+  margin-bottom: 65px;
 }
 
 .signup__title {
+  margin-top: 42px;
   font-size: 2.125rem;
   font-weight: bold;
   color: black;
@@ -185,7 +182,7 @@
 
 .error {
   margin-bottom: 10px;
-  width: 85.6%;
+  width: 81%;
 }
 
 .error__message {
@@ -203,7 +200,7 @@
 .signup__text {
   font-size: 1.813rem;
   color: black;
-  height: 4.063rem;
+  height: 3.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -237,7 +234,7 @@
 
 .small {
   width: 38.9rem;
-  margin-top: 1.5rem;
+  margin: 1.5rem 0 0 0;
 }
 
 .signup__confirm {
@@ -269,4 +266,13 @@
   margin-bottom: 7.563rem;
   height: 5rem;
   cursor: pointer;
+}
+
+.resend {
+  margin-bottom: 23px;
+}
+
+.wrap {
+  position: relative;
+  width: 81%;
 }

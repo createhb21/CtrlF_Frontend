@@ -1,3 +1,12 @@
+import Head from 'next/head';
+import {
+  email,
+  authCode,
+  nickName,
+  password,
+  passwordCheck,
+} from '../src/store/atom';
+import { useSetRecoilState } from 'recoil';
 import Email from '../src/components/register/Email';
 import Password from '../src/components/register/Password';
 import PasswordConfirm from '../src/components/register/PasswordConfirm';
@@ -5,20 +14,36 @@ import NickName from '../src/components/register/NickName';
 import AuthCode from '../src/components/register/AuthCode';
 import styles from '../src/styles/Register.module.css';
 import ReAuthentication from '../src/components/register/ReAuthentication';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 export default function Register() {
   const modalRef = useRef(null);
+  const [timer, setTimer] = useState(false);
+  const emailReset = useSetRecoilState(email);
+  const authCodeReset = useSetRecoilState(authCode);
+  const nickNameReset = useSetRecoilState(nickName);
+  const passwordReset = useSetRecoilState(password);
+  const passwordCehckReset = useSetRecoilState(passwordCheck);
+
+  useEffect(() => {
+    return () => {
+      emailReset('');
+      authCodeReset('');
+      nickNameReset('');
+      passwordReset('');
+      passwordCehckReset('');
+    };
+  }, []);
+
   const modal = () => {
     modalRef.current.style.display = 'flex';
     const section = document.getElementById('signup');
     section.style.display = 'none';
   };
-  const reAuth = () => {
-    document.getElementById('slide01').checked = true;
-  };
+
   const emailOverlapSuccess = () => {
     document.getElementById('slide02').checked = true;
+    setTimer(true);
   };
   const authCodeSuccess = () => {
     document.getElementById('slide03').checked = true;
@@ -31,8 +56,12 @@ export default function Register() {
   };
 
   return (
-    <div id="component">
-      <ReAuthentication ref={modalRef} reAuth={reAuth} styles={styles} />
+    <div className="component">
+      <Head>
+        <title>회원가입</title>
+        <meta name="description"></meta>
+      </Head>
+      <ReAuthentication ref={modalRef} />
       <div className={styles.section} id="signup">
         <input type="radio" name="slide" id="slide01" defaultChecked />
         <input type="radio" name="slide" id="slide02" />
@@ -47,24 +76,25 @@ export default function Register() {
                   styles={styles}
                   emailOverlapSuccess={emailOverlapSuccess}
                 />
-                <label htmlFor="slide02" className={styles.right}></label>
+                <label htmlFor="slide02" className={styles.right}>
+                  asdasdsa
+                </label>
               </a>
             </li>
             <li>
               <a>
-                <label
-                  id={styles.lableltest}
-                  htmlFor="slide01"
-                  className={styles.left}
-                ></label>
-                <AuthCode styles={styles} authCodeSuccess={authCodeSuccess} />
+                <label onClick={modal} className={styles.left}></label>
+                <AuthCode
+                  styles={styles}
+                  authCodeSuccess={authCodeSuccess}
+                  timer={timer}
+                />
                 <label htmlFor="slide03" className={styles.right}></label>
               </a>
             </li>
             <li>
               <a>
                 <label onClick={modal} className={styles.left}></label>
-
                 <NickName
                   styles={styles}
                   nickNameOverlapSuccess={nickNameOverlapSuccess}

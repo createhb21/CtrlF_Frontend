@@ -1,12 +1,16 @@
 import loginHook from '../../utils/LoginHooks';
+import ModalPreparing from '../items/modal/modal_preparing';
 import Link from 'next/link';
 import styles from '../../styles/Login.module.css';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { emailReg } from '../../utils/Reg';
+import { useRecoilState } from 'recoil';
+import { preparingModal } from '../../store/atom';
 
 const LoginForm = () => {
+  const [showHiddenModal, setShowHiddenModal] = useRecoilState(preparingModal);
   const router = useRouter();
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setloginPassword] = useState('');
@@ -42,9 +46,9 @@ const LoginForm = () => {
     };
 
     const success = await loginHook(loginData);
-    console.log(success);
     if (success.token) {
       Cookies.set('token', success.token.split('.')[1]);
+      localStorage.setItem('user_id', success.user_id);
       router.push('/');
       setloginValidate('');
     } else {
@@ -89,13 +93,23 @@ const LoginForm = () => {
         </button>
       </form>
       <div className={styles.login__button__extra}>
-        <Link href="/">
-          <a className={styles.login__link}>ID 찾기</a>
-        </Link>
+        {showHiddenModal && <ModalPreparing />}
+        <a
+          onClick={() => {
+            setShowHiddenModal(true);
+          }}
+          className={styles.login__link}
+        >
+          ID 찾기
+        </a>
+
         <span>|</span>
-        <Link href="/register">
+
+        {showHiddenModal && <ModalPreparing />}
+        <Link href="/passwordChange">
           <a className={styles.login__link}>PASSWORD 찾기</a>
         </Link>
+
         <span>|</span>
         <Link href="/register">
           <a className={styles.login__link}>회원가입</a>

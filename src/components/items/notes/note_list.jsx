@@ -2,22 +2,30 @@ import Link from 'next/link';
 import NotApprovedModal from '../modal/not_approved_modal';
 import styles from '../../../styles/items/notes/note_list.module.css';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { ModalUpdate, noteNumber, MyToggle } from '../../../store/atom';
+import {
+  isApprovedModal,
+  noteNumber,
+  MyToggle,
+  modalUtilsName,
+  modalUtilsSyntax,
+} from '../../../store/atom';
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import usePagination from '../../../utils/use_pagination';
+import UseLoader from '../../../utils/useLoader';
 
 export default function NoteList() {
   const noteObserver = useRef();
   const [lists, setLists] = useState([]);
   const toggle = useRecoilValue(MyToggle);
   const [noteId, setNoteId] = useState('');
-  const setNoteNum = useSetRecoilState(noteNumber);
+  const setNameState = useSetRecoilState(modalUtilsName);
+  const setModalSyntax = useSetRecoilState(modalUtilsSyntax);
   const [cursorNumber, setCursorNumber] = useState(0);
-  const { notes, hasMore, loading, length } = usePagination(cursorNumber);
-  const [isModalActive, setIsModalActive] = useRecoilState(ModalUpdate);
+  const [notApprovedModalActive, setNotApprovedModalActive] =
+    useRecoilState(isApprovedModal);
+  const { notes, hasMore, loading } = usePagination(cursorNumber);
 
   useEffect(() => {
-    setNoteNum(length);
     if (toggle === '') {
       setLists(notes);
     } else if (toggle === 'true') {
@@ -47,8 +55,10 @@ export default function NoteList() {
   const ifNotApprovedNoteClicked = (event, id, status) => {
     if (status !== 'true') {
       event.preventDefault();
-      setIsModalActive(false);
       setNoteId(id);
+      setNameState('노트');
+      setModalSyntax('는');
+      setNotApprovedModalActive(true);
     }
   };
 
@@ -65,7 +75,7 @@ export default function NoteList() {
                   note.is_approved
                 )} ${styles[`color_${Math.floor((index / 5) % 15)}`]}`}
               >
-                <Link href="/note/[id]" as={`/notes/${note.id}`}>
+                <Link href="/notes/[id]" as={`/notes/${note.id}`}>
                   <a
                     className={styles.link}
                     onClick={(e) =>
@@ -90,7 +100,7 @@ export default function NoteList() {
                 )} ${styles[`color_${Math.floor((index / 5) % 15)}`]}
                 `}
               >
-                <Link href="/note/[id]" as={`/note/${note.id}`}>
+                <Link href="/notes/[id]" as={`/notes/${note.id}`}>
                   <a
                     className={styles.link}
                     onClick={(e) =>
@@ -108,13 +118,8 @@ export default function NoteList() {
             );
           }
         })}
-      <div
-        className={`${styles.notes_modal} ${
-          isModalActive ? `${styles.hidden}` : ''
-        }`}
-      >
-        <NotApprovedModal id={noteId} />
-      </div>
+      <div style={{ padding: '30% 0' }}>{loading && <UseLoader />}</div>
+      {notApprovedModalActive && <NotApprovedModal id={noteId} />}
     </div>
   );
 }

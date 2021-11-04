@@ -7,12 +7,10 @@
   background: url('../../../public/images/background.svg') center fixed
     no-repeat;
   background-size: cover;
-  border-top: 1px solid grey;
-  box-shadow: 0px 0 10px rgba(0, 0, 0, 0.8) inset;
 }
 
 .header {
-  min-width: 82%;
+  min-width: 75%;
   min-height: 7.9em;
   display: flex;
   justify-content: center;
