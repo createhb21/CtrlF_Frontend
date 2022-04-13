@@ -1,6 +1,6 @@
 # CTRLF_Frontend
 It is a repository for CtrlF Frontend.
-You can get the bunch of knowledge more easily on [CtrlF](https://thinlineit.github.io/CtrlF_Frontend/).
+You can get the bunch of knowledge more easily on [CtrlF](http://ctrlf.space/).
 Feel free to contribute with us. 
 Share your idea, please.
 
